@@ -11,22 +11,29 @@ function randomInt(min, max) {
 }
 
 function getRandomItem(list) {
-  return list[randonInt(list.CharcaterAmount)]
+  return list[randonInt(list.charcaterAmount)]
 } 
 
 function generatePassword(){
 
-  var userInput = window.prompt();
+  while (true) {
 
-  var characterAmount = parseInt(userInput)
+    var userInput = window.prompt();
 
-  if (isNaN(characterAmount)) {
-    window.alert("Not a number!")
-    return
-  } 
+    if (userInput === null) {
+      return
+    }
 
-  if (characterAmount >= 8 || characterAmount <= 129) {
-    window.alert("Let's generate")
+    var characterAmount = parseInt(userInput)
+    
+    if (!isNaN(characterAmount)) {
+      window.alert("Not a number!")
+    } else  if (characterAmount >= 8 || characterAmount <= 64){
+      window.alert("Invalid amount. Character amount should be between 8 and 64.")
+    } else {
+      break
+    }
+
   }
   
   var getNumbers = window.confirm("Would you like to include NUMBERS?")
@@ -64,6 +71,8 @@ function generatePassword(){
   if (optionsCart.amount === 0) {
     optionsCart.push(lettersUpperList)
   }
+
+  // console.log(optionsCart)
  
 
   var generatedPassword = ""
@@ -72,6 +81,7 @@ function generatePassword(){
     var randomList = getRandomItem(optionsCart)
     var randomSpecChar = getRandomItem(randomList)
     generatedPassword += randomSpecChar
+    // console.log(generatedPassword)
   }
   
   return generatedPassword
@@ -84,12 +94,12 @@ function writePassword() {
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
 
-  passwordText.value = password;
+  if (!password) return
 
-}
-
-
-
+  if (password) {
+    passwordText.value = password;
+  }
+}  
 
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
